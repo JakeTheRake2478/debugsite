@@ -268,3 +268,47 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
+const vibrationSection = document.getElementById('vibrationSection');
+const vibrationBtn = document.getElementById('vibrationHoldBtn');
+const vibrationSelect = document.getElementById('vibrationPattern');
+const vibrationStatus = document.getElementById('vibrationStatus');
+
+// Auto-hide if not supported
+if (!("vibrate" in navigator)) {
+  vibrationSection.style.display = "none";
+} else {
+  vibrationStatus.textContent = "Ready to test. Hold the button to vibrate.";
+}
+
+// Handle vibration on hold
+let vibrationInterval;
+
+vibrationBtn.addEventListener('mousedown', startVibration);
+vibrationBtn.addEventListener('touchstart', startVibration);
+
+vibrationBtn.addEventListener('mouseup', stopVibration);
+vibrationBtn.addEventListener('mouseleave', stopVibration);
+vibrationBtn.addEventListener('touchend', stopVibration);
+vibrationBtn.addEventListener('touchcancel', stopVibration);
+
+function startVibration(e) {
+  e.preventDefault();
+
+  const patternStr = vibrationSelect.value;
+  const pattern = patternStr.split(',').map(p => parseInt(p.trim()));
+
+  vibrationStatus.textContent = `Vibrating... pattern: [${pattern}]`;
+  navigator.vibrate(pattern);
+
+  // Repeat pattern every few seconds (optional)
+  vibrationInterval = setInterval(() => {
+    navigator.vibrate(pattern);
+  }, 2000);
+}
+
+function stopVibration() {
+  vibrationStatus.textContent = "Vibration stopped.";
+  navigator.vibrate(0);
+  clearInterval(vibrationInterval);
+}
