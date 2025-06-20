@@ -119,6 +119,19 @@ body {
 <div id="batteryStatus" class="output"></div>
 <button id="orientationTestBtn">Start Device Orientation Test</button>
 <div id="orientationStatus" class="output"></div>
+<div id="vibrationSection" style="margin-top: 20px;">
+  <label for="vibrationPattern">Select Pattern:</label>
+  <select id="vibrationPattern">
+    <option value="200">Short (200ms)</option>
+    <option value="500">Medium (500ms)</option>
+    <option value="1000">Long (1s)</option>
+    <option value="100,50,100,50,100">Pulse (3x)</option>
+    <option value="300,100,700">Double Vibe</option>
+  </select>
+
+  <button id="vibrationHoldBtn" style="margin-top: 10px;">Hold to Vibrate</button>
+  <div id="vibrationStatus" class="output"></div>
+</div>
 
 
 
