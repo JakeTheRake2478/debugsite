@@ -236,4 +236,3 @@ Gamma (y-axis rotation): ${event.gamma?.toFixed(2)}
   status.textContent = 'Device orientation test started. Move your device.';
   orientationActive = true;
 });
-
