@@ -312,3 +312,47 @@ function stopVibration() {
   navigator.vibrate(0);
   clearInterval(vibrationInterval);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const vibrationSection = document.getElementById("vibrationSection");
+  const vibrationBtn = document.getElementById("vibrationHoldBtn");
+  const vibrationSelect = document.getElementById("vibrationPattern");
+  const vibrationStatus = document.getElementById("vibrationStatus");
+
+  if (!("vibrate" in navigator)) {
+    vibrationStatus.textContent = "Vibration not supported on this device/browser.";
+    return; // Leave section visible with a message
+  } else {
+    vibrationStatus.textContent = "Ready to test. Hold the button to vibrate.";
+  }
+
+  let vibrationInterval;
+
+  function startVibration(e) {
+    e.preventDefault();
+
+    const patternStr = vibrationSelect.value;
+    const pattern = patternStr.split(',').map(p => parseInt(p.trim()));
+
+    vibrationStatus.textContent = `Vibrating... pattern: [${pattern}]`;
+    navigator.vibrate(pattern);
+
+    vibrationInterval = setInterval(() => {
+      navigator.vibrate(pattern);
+    }, 2000);
+  }
+
+  function stopVibration() {
+    vibrationStatus.textContent = "Vibration stopped.";
+    navigator.vibrate(0);
+    clearInterval(vibrationInterval);
+  }
+
+  vibrationBtn.addEventListener('mousedown', startVibration);
+  vibrationBtn.addEventListener('touchstart', startVibration);
+
+  vibrationBtn.addEventListener('mouseup', stopVibration);
+  vibrationBtn.addEventListener('mouseleave', stopVibration);
+  vibrationBtn.addEventListener('touchend', stopVibration);
+  vibrationBtn.addEventListener('touchcancel', stopVibration);
+});
